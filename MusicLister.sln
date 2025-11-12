@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Main", "Feleves
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Models", "MusicLister.Model\MusicLister.Models.csproj", "{D8F68633-4972-4EB7-9220-6705F47864E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Services", "MusicLister.Services\MusicLister.Services.csproj", "{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{D8F68633-4972-4EB7-9220-6705F47864E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8F68633-4972-4EB7-9220-6705F47864E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8F68633-4972-4EB7-9220-6705F47864E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
