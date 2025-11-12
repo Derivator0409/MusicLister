@@ -60,8 +60,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+		<PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.9" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MusicLister.Infrastructure\MusicLister.Infrastructure.csproj" />
+	  <ProjectReference Include="..\MusicLister.Model\MusicLister.Models.csproj" />
+	  <ProjectReference Include="..\MusicLister.Services\MusicLister.Services.csproj" />
 	</ItemGroup>
 
 </Project>

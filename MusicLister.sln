@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36616.10 d17.14
+VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Main", "Feleves_Feladat_FZW0D1\MusicLister.Main.csproj", "{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Models", "MusicLister.Model\MusicLister.Models.csproj", "{D8F68633-4972-4EB7-9220-6705F47864E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Services", "MusicLister.Services\MusicLister.Services.csproj", "{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Main", "MusicLister.Main\MusicLister.Main.csproj", "{09879985-9720-087B-F0A4-CEBF915DB5D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,11 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8F68633-4972-4EB7-9220-6705F47864E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8F68633-4972-4EB7-9220-6705F47864E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8F68633-4972-4EB7-9220-6705F47864E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -28,6 +23,10 @@ Global
 		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7109ED6-6F8B-4E9D-BFD8-CB00FBC2CF03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09879985-9720-087B-F0A4-CEBF915DB5D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09879985-9720-087B-F0A4-CEBF915DB5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09879985-9720-087B-F0A4-CEBF915DB5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09879985-9720-087B-F0A4-CEBF915DB5D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
