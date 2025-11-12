@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36616.10 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feleves_Feladat_FZW0D1", "Feleves_Feladat_FZW0D1\Feleves_Feladat_FZW0D1.csproj", "{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Main", "Feleves_Feladat_FZW0D1\MusicLister.Main.csproj", "{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLister.Models", "MusicLister.Model\MusicLister.Models.csproj", "{D8F68633-4972-4EB7-9220-6705F47864E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +15,13 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47C10DEF-8002-4A36-BCBF-7027C1F1E8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F68633-4972-4EB7-9220-6705F47864E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F68633-4972-4EB7-9220-6705F47864E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F68633-4972-4EB7-9220-6705F47864E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F68633-4972-4EB7-9220-6705F47864E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
