@@ -1,4 +1,5 @@
-﻿using MusicLister.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicLister.Infrastructure;
 using MusicLister.Models;
 using MusicLister.Services;
 using System;
@@ -11,29 +12,45 @@ namespace Feleves_Feladat_FZW0D1.Services
 {
     public class DbArtistServices(DatabaseContext ctx) : IArtistService
     {
-        public Task CreateArtistAsync(Artist newArtist)
+        public async Task CreateArtistAsync(Artist newArtist)
         {
-            throw new NotImplementedException();
+            ctx.Artists.AddAsync(newArtist);
+            await ctx.SaveChangesAsync();
         }
 
-        public Task DeleteArtistAsync(int ID)
+        public async Task DeleteArtistAsync(int ID)
         {
-            throw new NotImplementedException();
+            Artist artistdelete=ctx.Artists.FirstOrDefault(x => x.ID==ID);
+            if (artistdelete != null)
+            {
+                ctx.Artists.Remove(artistdelete);
+                await ctx.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException();
+            }
         }
 
-        public Task<List<Artist>> GetAllAsync()
+        public async Task<List<Artist>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return await ctx.Artists.Include(x=>x.Name).Include(x=>x.ID).ToListAsync();
         }
 
-        public Task<Artist> GetAsync(int ID)
+        public async Task<Artist> GetAsync(int ID)
         {
-            throw new NotImplementedException();
+            return await ctx.Artists.FindAsync(ID)?? throw new KeyNotFoundException();
         }
 
-        public Task UpdateArtistAsync(int ID, Artist UpdateArtist)
+        public async Task UpdateArtistAsync(int ID, Artist UpdateArtist)
         {
-            throw new NotImplementedException();
+            Artist artist= await ctx.Artists.FirstOrDefaultAsync(y=>y.ID==ID)?? throw new KeyNotFoundException();
+
+            artist.Name = UpdateArtist.Name;
+            artist.ID = UpdateArtist.ID;
+            await ctx.SaveChangesAsync();
+
+
         }
     }
 }
