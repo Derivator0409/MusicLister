@@ -18,9 +18,20 @@ namespace Feleves_Feladat_FZW0D1.Services
             await ctx.SaveChangesAsync();
         }
 
-        public Task DeleteSongAsync(int ID)
+        public async Task DeleteSongAsync(int ID)
         {
-            throw new NotImplementedException();
+             Song songdelete=ctx.Songs.FirstOrDefault(s => s.ID==ID);
+            if (songdelete != null)
+            {
+               ctx.Songs.Remove(songdelete);
+                await ctx.SaveChangesAsync();
+            }
+            else
+            {
+
+                throw new KeyNotFoundException();
+            }
+
         }
 
         public async Task<List<Song>> GetAllAsync()
