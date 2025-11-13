@@ -15,7 +15,7 @@ namespace MusicLister.Models
         public int ID { get; set; }
         [StringLength(150)]
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; }=string.Empty;
         [StringLength(150)]
         [Required]
         public TimeSpan Length { get; set; }
