@@ -73,4 +73,8 @@
 	  <ProjectReference Include="..\MusicLister.Services\MusicLister.Services.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="ViewModels\" />
+	</ItemGroup>
+
 </Project>
