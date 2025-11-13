@@ -17,7 +17,7 @@ namespace MusicLister.Models
         [Required]
         public string Name { get; set; }
     
-         virtual ICollection<Song> Songs { get; set; }
+       public  virtual ICollection<Song> Songs { get; set; }
     
     
     }
