@@ -64,6 +64,50 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             await Shell.Current.GoToAsync("editsong", param);
         }
 
+        [RelayCommand]
+        async Task DeleteSong()
+        {
+            if (SelectedSong == null)
+            {
+                WeakReferenceMessenger.Default.Send("Hiba: Nincs semmi kijelölve törléshez");
+                return;
+            }
+            bool response = await Shell.Current.DisplayAlert("Törlés", $"Biztosan szeretnéd törölni a {SelectedSong.Title} dalt", "igen", "nem");
+            if (response)
+            {
+                await songService.DeleteSongAsync(SelectedSong.ID);
+                Songs.Remove(SelectedSong);
+                SelectedSong = null;
+
+            }
+
+        }
+
+        async partial void OnSelectedSongChanged(Song value)
+        {
+            if (value != null)
+            {
+                await songService.UpdateSongAsync(SelectedSong.ID, value);
+
+                if (SelectedSong != null)
+                {
+                    var oldSong = Songs.Where(x => x.ID == SelectedSong.ID).FirstOrDefault();
+                    if (oldSong != null)
+                    {
+                        Songs.Remove(oldSong);
+                    }
+                    Songs.Add(value);
+                }
+                else
+                {
+                    Songs.Add(value);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
         async Task EditArtistAsync() 
@@ -76,6 +120,7 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             var param = new ShellNavigationQueryParameters { { "Artist", SelectedArtist } };
             await Shell.Current.GoToAsync("editartist", param);
         }
+        //TO DO SONG DELETE, SAVE UPDATE
         [RelayCommand]
         async Task DeleteArtist()
         {
