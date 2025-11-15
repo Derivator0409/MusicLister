@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Feleves_Feladat_FZW0D1.ViewModels
 {
+    [QueryProperty(nameof(SelectedArtist), "SavedSubject")]
+    [QueryProperty(nameof(SelectedSong), "SavedSubject")]
+
     public partial class MainPageViewModel:ObservableObject
     {
         private readonly ISongService songService;

@@ -5,11 +5,12 @@
              x:Class="Feleves_Feladat_FZW0D1.MainPage"
              x:DataType="viewmodels:MainPageViewModel"
              Title="MusicLister"
+             
              >
     <Grid RowDefinitions="Auto, *" RowSpacing="10" Padding="10">
 
         <HorizontalStackLayout Grid.Row="0" Spacing="15" HorizontalOptions="Center">
-            <Button Text="New Artist"/>
+            <Button Text="New Artist" Command="{Binding AddNewArtistCommand}"/>
             <Button Text="Edit Artist"/>
             <Button Text="Delete Artist"/>
         </HorizontalStackLayout>
