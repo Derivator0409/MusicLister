@@ -120,7 +120,7 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             var param = new ShellNavigationQueryParameters { { "Artist", SelectedArtist } };
             await Shell.Current.GoToAsync("editartist", param);
         }
-        //TO DO SONG DELETE, SAVE UPDATE
+
         [RelayCommand]
         async Task DeleteArtist()
         {

@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Feleves_Feladat_FZW0D1.Services;
+using Feleves_Feladat_FZW0D1.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using MusicLister.Infrastructure;
+using MusicLister.Services;
 
 namespace Feleves_Feladat_FZW0D1
 {
@@ -14,12 +20,27 @@ namespace Feleves_Feladat_FZW0D1
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            string connectionString = "Server=szinger.duckdns.org;Port=3306;Database=Teszt;Uid=root;Pwd=Deriv@tor0409;";
 
+            builder.Services.AddDbContext<DatabaseContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
+            
+            builder.Services.AddTransient<MainPage>(); 
+            builder.Services.AddTransient<MainPageViewModel>();
+            builder.Services.AddScoped<ISongService, DbSongServices>();
+            builder.Services.AddScoped<IArtistService, DbArtistServices>();
+            
+            
+            
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
+            
+          
         }
     }
 }

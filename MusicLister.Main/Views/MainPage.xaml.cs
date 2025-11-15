@@ -11,13 +11,13 @@ namespace Feleves_Feladat_FZW0D1
         {
             InitializeComponent();
             this.mainPageViewModel = mainPageView;
-            BindingContext = this.mainPageViewModel;
+           BindingContext = this.mainPageViewModel;
             WeakReferenceMessenger.Default.Register<string>(this, async (recipient, message) => { await DisplayAlert("alert", message, "Ok"); });
 
         }
         private async void OnLoaded(object? sender, EventArgs e)
-        { 
-        
+        {
+            await mainPageViewModel.LoadAllCommand.ExecuteAsync(null);
         }
 
         
