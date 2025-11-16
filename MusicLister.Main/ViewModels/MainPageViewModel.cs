@@ -13,14 +13,17 @@ using System.Threading.Tasks;
 namespace Feleves_Feladat_FZW0D1.ViewModels
 {
     [QueryProperty(nameof(SongToSave), "SavedSong")]
-
     [QueryProperty(nameof(ArtistToSave), "SavedArtist")]
     public partial class MainPageViewModel : ObservableObject
     {
-        private readonly ISongService songService;
-        private readonly IArtistService artistService;
+        private readonly IServiceScopeFactory _scopeFactory;
+        public MainPageViewModel(IServiceScopeFactory scopeFactory)
+        {
+            _scopeFactory = scopeFactory;
+        }
 
-
+        [ObservableProperty]
+        ObservableCollection<Song> filteredSongs = new ObservableCollection<Song>();
 
         [ObservableProperty]
         ObservableCollection<Artist> artists = new ObservableCollection<Artist>();
@@ -34,34 +37,42 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
         [ObservableProperty]
         Song songToSave;
 
-
         [ObservableProperty]
         Artist selectedArtist;
 
         [ObservableProperty]
         Song selectedSong;
 
-        public MainPageViewModel(IArtistService artistService,ISongService songService)
+        
+        async partial void OnSelectedArtistChanged(Artist value)
         {
-           this.songService = songService;
-            this.artistService = artistService;
+           
+            FilteredSongs.Clear();
+            SelectedSong = null;
+
+            if (value == null)
+            {
+                return;
+            }
+
+        
+            var songsForThisArtist = Songs.Where(s => s.ArtistID == value.ID);
+
+            foreach (var song in songsForThisArtist)
+            {
+                FilteredSongs.Add(song);
+            }
         }
-        
-        
-        
-        
-        
-        
-        
+
         [RelayCommand]
         public async Task AddNewArtist()
         {
             SelectedArtist = null;
-            var newArtist=new Artist();
-            var param = new ShellNavigationQueryParameters { {"Artist",newArtist } };
-            await Shell.Current.GoToAsync("editartist",param);
-        
+            var newArtist = new Artist();
+            var param = new ShellNavigationQueryParameters { { "Artist", newArtist } };
+            await Shell.Current.GoToAsync("editartist", param);
         }
+
         [RelayCommand]
         public async Task AddNewSong()
         {
@@ -85,12 +96,12 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
         [RelayCommand]
         async Task EditSongAsync()
         {
-            if(SelectedSong==null)
+            if (SelectedSong == null)
             {
                 WeakReferenceMessenger.Default.Send("Hiba: Nincs kiválasztva Zeneszám");
                 return;
             }
-            var param = new ShellNavigationQueryParameters { { "Song",SelectedSong} };
+            var param = new ShellNavigationQueryParameters { { "Song", SelectedSong } };
             await Shell.Current.GoToAsync("editsong", param);
         }
 
@@ -105,18 +116,21 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             bool response = await Shell.Current.DisplayAlert("Törlés", $"Biztosan szeretnéd törölni a {SelectedSong.Title} dalt", "igen", "nem");
             if (response)
             {
-                await songService.DeleteSongAsync(SelectedSong.ID);
+                using (var scope = _scopeFactory.CreateScope())
+                {
+                    var songService = scope.ServiceProvider.GetRequiredService<ISongService>();
+                    await songService.DeleteSongAsync(SelectedSong.ID);
+                }
+
                 Songs.Remove(SelectedSong);
+                FilteredSongs.Remove(SelectedSong);
+
                 SelectedSong = null;
-
             }
-
         }
 
-       
-
         [RelayCommand]
-        async Task EditArtistAsync() 
+        async Task EditArtistAsync()
         {
             if (SelectedArtist == null)
             {
@@ -135,100 +149,118 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
                 WeakReferenceMessenger.Default.Send("Hiba: Nincs semmi kijelölve törléshez");
                 return;
             }
-            bool response = await Shell.Current.DisplayAlert("Törlés",$"Biztosan szeretnéd törölni a {SelectedArtist.Name} előadót","igen","nem");
-            if(response)
+            bool response = await Shell.Current.DisplayAlert("Törlés", $"Biztosan szeretnéd törölni a {SelectedArtist.Name} előadót", "igen", "nem");
+
+            if (response)
             {
-                await artistService.DeleteArtistAsync(SelectedArtist.ID);
+                int deletedArtistId = SelectedArtist.ID;
+
+                using (var scope = _scopeFactory.CreateScope())
+                {
+                    var artistService = scope.ServiceProvider.GetRequiredService<IArtistService>();
+                    await artistService.DeleteArtistAsync(deletedArtistId);
+                }
+
                 Artists.Remove(SelectedArtist);
+
+                var songsToRemove = Songs.Where(s => s.ArtistID == deletedArtistId).ToList();
+                foreach (var song in songsToRemove)
+                {
+                    Songs.Remove(song);
+                }
+
                 SelectedArtist = null;
-
             }
-
         }
+
         async partial void OnSongToSaveChanged(Song value)
         {
             if (value == null)
                 return;
 
-
-            if (value.ID == 0)
+            using (var scope = _scopeFactory.CreateScope())
             {
-                await songService.CreateSongAsync(value);
-                Songs.Add(value);
-            }
-            else
-            {
+                var songService = scope.ServiceProvider.GetRequiredService<ISongService>();
 
-                await songService.UpdateSongAsync(value.ID, value);
-
-                var oldSong = Songs.FirstOrDefault(a => a.ID == value.ID);
-                if (oldSong != null)
+                if (value.ID == 0)
                 {
-                    var index = Songs.IndexOf(oldSong);
-                    Songs[index] = value;
+                    await songService.CreateSongAsync(value);
+                    Songs.Add(value);
+
+                    if (SelectedArtist != null && value.ArtistID == SelectedArtist.ID)
+                    {
+                        FilteredSongs.Add(value);
+                    }
+                }
+                else 
+                {
+                    await songService.UpdateSongAsync(value.ID, value);
+
+                    var oldSongMaster = Songs.FirstOrDefault(a => a.ID == value.ID);
+                    if (oldSongMaster != null) Songs[Songs.IndexOf(oldSongMaster)] = value;
+
+                 
+                    var oldSongFiltered = FilteredSongs.FirstOrDefault(a => a.ID == value.ID);
+                    if (oldSongFiltered != null) FilteredSongs[FilteredSongs.IndexOf(oldSongFiltered)] = value;
                 }
             }
 
-            SongToSave= null;
+            SongToSave = null;
         }
-
-
-
 
         async partial void OnArtistToSaveChanged(Artist value)
         {
             if (value == null)
                 return;
 
-    
-            if (value.ID== 0)
-            { 
-                await artistService.CreateArtistAsync(value);
-                Artists.Add(value);
-            }
-            else
+            using (var scope = _scopeFactory.CreateScope())
             {
-             
-                await artistService.UpdateArtistAsync(value.ID, value);
+                var artistService = scope.ServiceProvider.GetRequiredService<IArtistService>();
 
-                var oldArtist = Artists.FirstOrDefault(a => a.ID == value.ID);
-                if (oldArtist != null)
+                if (value.ID == 0)
                 {
-                    var index = Artists.IndexOf(oldArtist);
-                    Artists[index] = value;
+                    await artistService.CreateArtistAsync(value);
+                    Artists.Add(value);
+                }
+                else
+                {
+                    await artistService.UpdateArtistAsync(value.ID, value);
+
+                    var oldArtist = Artists.FirstOrDefault(a => a.ID == value.ID);
+                    if (oldArtist != null)
+                    {
+                        var index = Artists.IndexOf(oldArtist);
+                        Artists[index] = value;
+                    }
                 }
             }
-
             ArtistToSave = null;
         }
-
-        
-            
-  
-
 
         [RelayCommand]
         public async Task LoadAll()
         {
-            var Artistdb = await artistService.GetAllAsync();
-            var Songdb = await songService.GetAllAsync();
-
-            Artists.Clear();
-            Songs.Clear();
-            
-            foreach (var Artist in Artistdb)
+            using (var scope = _scopeFactory.CreateScope())
             {
-                Artists.Add(Artist);
-               
+                var artistService = scope.ServiceProvider.GetRequiredService<IArtistService>();
+                var songService = scope.ServiceProvider.GetRequiredService<ISongService>();
 
+                var Artistdb = await artistService.GetAllAsync();
+                var Songdb = await songService.GetAllAsync();
+
+                Artists.Clear();
+                Songs.Clear();
+                FilteredSongs.Clear();
+
+                foreach (var Artist in Artistdb)
+                {
+                    Artists.Add(Artist);
+                }
+                foreach (var Song in Songdb)
+                {
+                    Songs.Add(Song);
+                }
             }
-            foreach (var Song in Songdb)
-            {
-                Songs.Add(Song);
-            }
-
-
         }
-    
     }
 }

@@ -26,10 +26,10 @@
             <Button Text="Edit Song" Command="{Binding EditSongAsyncCommand}"/>
             <Button Text="Delete Song" Command="{Binding DeleteSongCommand}"/>
         </HorizontalStackLayout>
-        
+
         <Picker Grid.Row="3"
                 Title="Válassz dalt..."
-                ItemsSource="{Binding Songs}"
+                ItemsSource="{Binding FilteredSongs}"
                 ItemDisplayBinding="{Binding Title}" SelectedItem="{Binding SelectedSong}"
                 HorizontalOptions="Fill" />
 
