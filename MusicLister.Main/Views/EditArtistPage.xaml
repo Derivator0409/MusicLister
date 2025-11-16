@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Feleves_Feladat_FZW0D1.Views.EditArtistPage"
              Title="ArtistPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <VerticalStackLayout Spacing="10" Padding="20" VerticalOptions="Center">
+        <Label Text="Előadó neve" FontAttributes="Bold"/>
+
+        <Entry Text="{Binding ArtistToEdit.Name}" Placeholder="Scooter"/>
+
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <Button Text="Mentés"  Command="{Binding SaveCommand}"/>
+            <Button Text="Vissza" Command="{Binding CancelCommand}"/>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
