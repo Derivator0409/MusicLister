@@ -12,19 +12,28 @@ using System.Threading.Tasks;
 
 namespace Feleves_Feladat_FZW0D1.ViewModels
 {
-    [QueryProperty(nameof(SelectedArtist), "SavedSubject")]
     [QueryProperty(nameof(SelectedSong), "SavedSubject")]
 
+    [QueryProperty(nameof(ArtistToSave), "SavedArtist")]
     public partial class MainPageViewModel:ObservableObject
     {
         private readonly ISongService songService;
         private readonly IArtistService artistService;
+
+
 
         [ObservableProperty]
         ObservableCollection<Artist> artists = new ObservableCollection<Artist>();
 
         [ObservableProperty]
         ObservableCollection<Song> songs = new ObservableCollection<Song>();
+
+        [ObservableProperty]
+        Artist artistToSave;
+
+        [ObservableProperty]
+        Song songToSave;
+
 
         [ObservableProperty]
         Artist selectedArtist;
@@ -142,37 +151,66 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             }
 
         }
-
-
-        async partial void OnSelectedArtistChanged(Artist value)
+        async partial void OnSongToSaveChanged(Song value)
         {
-            if (value != null)
-            {
-                await artistService.UpdateArtistAsync(SelectedArtist.ID, value);
+            if (value == null)
+                return;
 
-                if (SelectedArtist != null)
-                {
-                    var oldArtist = Artists.Where(x => x.ID == SelectedArtist.ID).FirstOrDefault();
-                    if (oldArtist != null)
-                    {
-                        Artists.Remove(oldArtist);
-                    }
-                    Artists.Add(value);
-                }
-                else 
-                {
-                    Artists.Add(value);
-                }
+
+            if (value.ID == 0)
+            {
+                await songService.CreateSongAsync(value);
+                Songs.Add(value);
             }
             else
             {
-                return;
+
+                await songService.UpdateSongAsync(value.ID, value);
+
+                var oldSong = Songs.FirstOrDefault(a => a.ID == value.ID);
+                if (oldSong != null)
+                {
+                    var index = Songs.IndexOf(oldSong);
+                    Songs[index] = value;
+                }
             }
 
+            SongToSave= null;
         }
-            
-        
 
+
+
+
+        async partial void OnArtistToSaveChanged(Artist value)
+        {
+            if (value == null)
+                return;
+
+    
+            if (value.ID== 0)
+            { 
+                await artistService.CreateArtistAsync(value);
+                Artists.Add(value);
+            }
+            else
+            {
+             
+                await artistService.UpdateArtistAsync(value.ID, value);
+
+                var oldArtist = Artists.FirstOrDefault(a => a.ID == value.ID);
+                if (oldArtist != null)
+                {
+                    var index = Artists.IndexOf(oldArtist);
+                    Artists[index] = value;
+                }
+            }
+
+            ArtistToSave = null;
+        }
+
+        
+            
+  
 
 
         [RelayCommand]

@@ -34,6 +34,8 @@ namespace Feleves_Feladat_FZW0D1
             builder.Services.AddScoped<IArtistService, DbArtistServices>();
             builder.Services.AddTransient<EditArtistPage>();
             builder.Services.AddTransient<EditArtistViewModel>();
+            builder.Services.AddTransient<EditSongPage>();
+            builder.Services.AddTransient<EditSongViewModel>();
 
 
 #if DEBUG
