@@ -24,7 +24,7 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
         [RelayCommand]
         async Task SaveAsync()
         {
-            if (string.IsNullOrWhiteSpace(ArtistToEdit.Name))
+            if (string.IsNullOrWhiteSpace(ArtistToEdit?.Name))
             {
                 WeakReferenceMessenger.Default.Send($"Hiba: Az elődadó megadása kötelező!");
                 return;

@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Feleves_Feladat_FZW0D1.ViewModels
 {
-    [QueryProperty(nameof(SelectedSong), "SavedSubject")]
+    [QueryProperty(nameof(SongToSave), "SavedSong")]
 
     [QueryProperty(nameof(ArtistToSave), "SavedArtist")]
-    public partial class MainPageViewModel:ObservableObject
+    public partial class MainPageViewModel : ObservableObject
     {
         private readonly ISongService songService;
         private readonly IArtistService artistService;
@@ -46,6 +46,13 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
            this.songService = songService;
             this.artistService = artistService;
         }
+        
+        
+        
+        
+        
+        
+        
         [RelayCommand]
         public async Task AddNewArtist()
         {
@@ -58,16 +65,27 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
         [RelayCommand]
         public async Task AddNewSong()
         {
+            if (SelectedArtist == null)
+            {
+                WeakReferenceMessenger.Default.Send("Hiba: Először válassz ki egy előadót, akihez a dalt hozzáadod!");
+                return;
+            }
+
             SelectedSong = null;
-            var newSong=new Song();
-            var param = new ShellNavigationQueryParameters { {"Song",newSong } };
-            await Shell.Current.GoToAsync("editsong",param);
+
+            var newSong = new Song
+            {
+                ArtistID = SelectedArtist.ID
+            };
+
+            var param = new ShellNavigationQueryParameters { { "Song", newSong } };
+            await Shell.Current.GoToAsync("editsong", param);
         }
 
         [RelayCommand]
         async Task EditSongAsync()
         {
-            if(SelectedArtist==null)
+            if(SelectedSong==null)
             {
                 WeakReferenceMessenger.Default.Send("Hiba: Nincs kiválasztva Zeneszám");
                 return;
@@ -95,31 +113,7 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
 
         }
 
-        async partial void OnSelectedSongChanged(Song value)
-        {
-            if (value != null)
-            {
-                await songService.UpdateSongAsync(SelectedSong.ID, value);
-
-                if (SelectedSong != null)
-                {
-                    var oldSong = Songs.Where(x => x.ID == SelectedSong.ID).FirstOrDefault();
-                    if (oldSong != null)
-                    {
-                        Songs.Remove(oldSong);
-                    }
-                    Songs.Add(value);
-                }
-                else
-                {
-                    Songs.Add(value);
-                }
-            }
-            else
-            {
-                return;
-            }
-        }
+       
 
         [RelayCommand]
         async Task EditArtistAsync() 

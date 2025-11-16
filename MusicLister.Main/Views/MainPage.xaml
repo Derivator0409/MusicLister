@@ -4,18 +4,36 @@
              xmlns:viewmodels="clr-namespace:Feleves_Feladat_FZW0D1.ViewModels"
              x:Class="Feleves_Feladat_FZW0D1.MainPage"
              x:DataType="viewmodels:MainPageViewModel"
+             Loaded="OnLoaded"
              Title="MusicLister"
-             
-             >
-    <Grid RowDefinitions="Auto, *" RowSpacing="10" Padding="10">
+>
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, *" RowSpacing="10" Padding="10">
 
         <HorizontalStackLayout Grid.Row="0" Spacing="15" HorizontalOptions="Center">
             <Button Text="New Artist" Command="{Binding AddNewArtistCommand}"/>
-            <Button Text="Edit Artist"/>
-            <Button Text="Delete Artist"/>
+            <Button Text="Edit Artist" Command="{Binding EditArtistCommand}"/>
+            <Button Text="Delete Artist" Command="{Binding DeleteArtistCommand}"/>
+        </HorizontalStackLayout>
+
+        <Picker Grid.Row="1"
+                Title="Válassz előadót..."
+                ItemsSource="{Binding Artists}"  ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedArtist}" 
+                HorizontalOptions="Fill" />
+
+        <HorizontalStackLayout Grid.Row="2" Spacing="15" HorizontalOptions="Center">
+            <Button Text="New Song" Command="{Binding AddNewSongCommand}"/>
+            <Button Text="Edit Song" Command="{Binding EditSongAsyncCommand}"/>
+            <Button Text="Delete Song" Command="{Binding DeleteSongCommand}"/>
         </HorizontalStackLayout>
         
-        
-        
+        <Picker Grid.Row="3"
+                Title="Válassz dalt..."
+                ItemsSource="{Binding Songs}"
+                ItemDisplayBinding="{Binding Title}" SelectedItem="{Binding SelectedSong}"
+                HorizontalOptions="Fill" />
+
+        <Label Grid.Row="4" Text="Ide jöhet a fő tartalom / listák..." />
+
     </Grid>
 </ContentPage>

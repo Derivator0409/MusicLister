@@ -14,7 +14,7 @@ namespace Feleves_Feladat_FZW0D1.Services
     {
         public async Task CreateArtistAsync(Artist newArtist)
         {
-            ctx.Artists.AddAsync(newArtist);
+            await ctx.Artists.AddAsync(newArtist);
             await ctx.SaveChangesAsync();
         }
 
@@ -34,7 +34,7 @@ namespace Feleves_Feladat_FZW0D1.Services
 
         public async Task<List<Artist>> GetAllAsync()
         {
-           return await ctx.Artists.Include(x=>x.Name).Include(x=>x.ID).ToListAsync();
+            return await ctx.Artists.ToListAsync();
         }
 
         public async Task<Artist> GetAsync(int ID)
