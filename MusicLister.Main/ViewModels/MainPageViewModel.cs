@@ -15,6 +15,7 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
 {
     [QueryProperty(nameof(SongToSave), "SavedSong")]
     [QueryProperty(nameof(ArtistToSave), "SavedArtist")]
+    [QueryProperty(nameof(NeedsRefresh), "Refresh")]
     public partial class MainPageViewModel : ObservableObject
     {
         private readonly IServiceScopeFactory _scopeFactory;
@@ -44,7 +45,10 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
         [ObservableProperty]
         Song selectedSong;
 
-        
+        [ObservableProperty]
+        bool needsRefresh;
+
+
         async partial void OnSelectedArtistChanged(Artist value)
         {
            
@@ -64,6 +68,25 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
                 FilteredSongs.Add(song);
             }
         }
+
+        async partial void OnNeedsRefreshChanged(bool value)
+        {
+            if (value)
+            {
+                if (LoadAllCommand.CanExecute(null))
+                {
+                    await LoadAllCommand.ExecuteAsync(null);
+                }
+                NeedsRefresh = false;
+            }
+        }
+        [RelayCommand]
+        async Task GoToSpotifyImport()
+        {
+            
+            await Shell.Current.GoToAsync("spotifyimport");
+        }
+
 
         [RelayCommand]
         public async Task AddNewArtist()

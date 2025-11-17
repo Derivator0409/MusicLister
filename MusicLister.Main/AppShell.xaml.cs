@@ -10,6 +10,7 @@ namespace Feleves_Feladat_FZW0D1
             InitializeComponent();
             Routing.RegisterRoute("editartist", typeof(EditArtistPage));
             Routing.RegisterRoute("editsong", typeof(EditSongPage));
+            Routing.RegisterRoute("spotifyimport", typeof(SpotifyImportPage));
         }
     }
 }
