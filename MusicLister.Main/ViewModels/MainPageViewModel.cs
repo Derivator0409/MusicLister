@@ -6,6 +6,7 @@ using MusicLister.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,6 +105,28 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             var param = new ShellNavigationQueryParameters { { "Song", SelectedSong } };
             await Shell.Current.GoToAsync("editsong", param);
         }
+
+        [RelayCommand]
+        async Task SpotifySearch()
+        {
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+                if (SelectedSong == null)
+                {
+                    WeakReferenceMessenger.Default.Send("Hiba: Nincs semmi kijelölve törléshez");
+                    return;
+                }
+                string search = SelectedArtist.Name + " " + SelectedSong.Title;
+                search.Replace(" ", "%20");
+                var link = $"https://open.spotify.com/search/ {search}";
+                Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send("Hiba: Nincs hálózati elérés");
+            }
+        }
+
 
         [RelayCommand]
         async Task DeleteSong()

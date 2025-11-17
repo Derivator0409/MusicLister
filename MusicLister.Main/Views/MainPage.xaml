@@ -25,6 +25,7 @@
             <Button Text="New Song" Command="{Binding AddNewSongCommand}"/>
             <Button Text="Edit Song" Command="{Binding EditSongAsyncCommand}"/>
             <Button Text="Delete Song" Command="{Binding DeleteSongCommand}"/>
+            <Button  Text="Spotify search" Command="{Binding SpotifySearchCommand}"  />
         </HorizontalStackLayout>
 
         <Picker Grid.Row="3"
