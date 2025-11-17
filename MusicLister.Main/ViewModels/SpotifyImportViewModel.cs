@@ -48,8 +48,8 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
             try
             {
                 StatusMessage = "Spotify-hoz csatlakozás...";
-                string clientId = "613b6502662249be984583601d2cded3";
-                string clientSecret = "8ce73e7501c547ddbce6193699aa9c91";
+                string clientId = "";
+                string clientSecret = "";
 
                 var config = SpotifyClientConfig.CreateDefault();
                 var request = new ClientCredentialsRequest(clientId, clientSecret);
