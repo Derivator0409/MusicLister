@@ -36,6 +36,8 @@ namespace Feleves_Feladat_FZW0D1
             builder.Services.AddTransient<EditArtistViewModel>();
             builder.Services.AddTransient<EditSongPage>();
             builder.Services.AddTransient<EditSongViewModel>();
+            builder.Services.AddTransient<SpotifyImportPage>();
+            builder.Services.AddTransient<SpotifyImportViewModel>();
 
 
 #if DEBUG

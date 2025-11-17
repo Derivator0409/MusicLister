@@ -140,9 +140,18 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
                     return;
                 }
                 string search = SelectedArtist.Name + " " + SelectedSong.Title;
-                search.Replace(" ", "%20");
-                var link = $"https://open.spotify.com/search/ {search}";
-                Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
+                string encodeSearch=System.Net.WebUtility.UrlEncode(search);
+                var url = new Uri($"spotify:search:{encodeSearch}");
+                bool open=await Launcher.Default.OpenAsync(url);
+                if (open)
+                {
+                    await Launcher.Default.OpenAsync(url);
+                }
+                else
+                {
+                    var webUri = new Uri($"https://open.spotify.com/search/{encodeSearch}");
+                    await Browser.Default.OpenAsync(webUri, BrowserLaunchMode.SystemPreferred);
+                }
             }
             else
             {

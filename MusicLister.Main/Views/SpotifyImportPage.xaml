@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Feleves_Feladat_FZW0D1.Views.SpotifyImportPage"
-             Title="SpotifyImportPage">
-    <VerticalStackLayout>
+             xmlns:vm="clr-namespace:Feleves_Feladat_FZW0D1.ViewModels"
+            x:Class="Feleves_Feladat_FZW0D1.Views.SpotifyImportPage"
+             x:DataType="vm:SpotifyImportViewModel"
+             Title="Spotify Import">
+    <VerticalStackLayout Padding="20" Spacing="10" VerticalOptions="Center">
+
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
+            Text="Spotify Playlist Import"
+            FontSize="Title"
             HorizontalOptions="Center" />
+
+        <Label 
+            Text="{Binding StatusMessage}"
+            HorizontalOptions="Center"
+             />
+
+        <Entry 
+            Placeholder="Playlist URL vagy ID"
+            Text="{Binding PlaylistUrl}"
+            IsEnabled="{Binding IsNotImporting}" />
+
+        <Button 
+            Text="Importálás indítása"
+            Command="{Binding ImportPlayListCommand}"
+            IsEnabled="{Binding IsNotImporting}"
+            HorizontalOptions="Fill" />
+
+        <ActivityIndicator
+            IsRunning="{Binding IsImporting}"
+            IsVisible="{Binding IsImporting}"
+            HorizontalOptions="Center" />
+
     </VerticalStackLayout>
 </ContentPage>
