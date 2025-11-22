@@ -5,14 +5,66 @@
              x:Class="Feleves_Feladat_FZW0D1.Views.EditArtistPage"
              x:DataType="viewmodels:EditArtistViewModel"
              Title="ArtistPage">
-    <VerticalStackLayout Spacing="10" Padding="20" VerticalOptions="Center">
-        <Label Text="Előadó neve" FontAttributes="Bold"/>
 
-        <Entry Text="{Binding ArtistToEdit.Name}" Placeholder="Scooter"/>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="25"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="Padding" Value="20,0"/>
+                <Setter Property="Shadow">
+                    <Shadow Brush="Black" Offset="2,2" Opacity="0.3"/>
+                </Setter>
+            </Style>
 
-        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Button Text="Mentés"  Command="{Binding SaveCommand}"/>
-            <Button Text="Vissza" Command="{Binding CancelCommand}"/>
+            <Style TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 25"/>
+                <Setter Property="Stroke" Value="{StaticResource Primary}"/>
+                <Setter Property="StrokeThickness" Value="2"/>
+                <Setter Property="Padding" Value="15,0"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+        <Label Text="Előadó szerkesztése" 
+               FontSize="24" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               TextColor="{StaticResource Primary}"
+               Margin="0,0,0,20"/>
+
+        <VerticalStackLayout Spacing="5">
+            <Label Text="Előadó neve" 
+                   TextColor="Gray" 
+                   FontSize="12" 
+                   Margin="15,0,0,0"/>
+
+            <Border>
+                <Entry Text="{Binding ArtistToEdit.Name}" 
+                       Placeholder="Pl. Scooter" 
+                       VerticalOptions="Center"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            </Border>
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout Spacing="15" HorizontalOptions="Center" Margin="0,20,0,0">
+            <Button Text="Mentés" 
+                    Command="{Binding SaveCommand}"
+                    WidthRequest="120"/>
+
+            <Button Text="Vissza" 
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="#505050"
+                    WidthRequest="120"/>
         </HorizontalStackLayout>
+
     </VerticalStackLayout>
 </ContentPage>

@@ -7,32 +7,70 @@
              Loaded="OnLoaded"
              Title="MusicLister">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="25"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="Padding" Value="15,0"/>
+                <Setter Property="Shadow">
+                    <Shadow Brush="Black" Offset="2,2" Opacity="0.3"/>
+                </Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="Opacity" Value="0.8" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Normal" />
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 25"/>
+                <Setter Property="Stroke" Value="{StaticResource Primary}"/>
+                <Setter Property="StrokeThickness" Value="2"/>
+                <Setter Property="Padding" Value="15,0"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid RowDefinitions="Auto, *" RowSpacing="10" Padding="10">
 
         <ScrollView Grid.Row="0" Orientation="Vertical">
-            <VerticalStackLayout Spacing="10">
+            <VerticalStackLayout Spacing="15">
 
-                <FlexLayout Direction="Row" 
-                            Wrap="Wrap" 
-                            JustifyContent="Center" 
-                            AlignItems="Center">
-
+                <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center" AlignItems="Center">
                     <Button Text="New Artist" Command="{Binding AddNewArtistCommand}" Margin="5"/>
                     <Button Text="Edit Artist" Command="{Binding EditArtistCommand}" Margin="5"/>
                     <Button Text="Delete Artist" Command="{Binding DeleteArtistCommand}" Margin="5"/>
                 </FlexLayout>
 
-                <Picker Title="Válassz előadót..."
-                        ItemsSource="{Binding Artists}"  
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding SelectedArtist}" 
-                        HorizontalOptions="Fill" />
+                <VerticalStackLayout Spacing="5" Margin="0,5">
+                    <Label Text="Válassz előadót..." TextColor="Gray" FontSize="12" Margin="15,0,0,0"/>
+                    <Border>
+                        <Picker ItemsSource="{Binding Artists}"  
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedArtist}" 
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    </Border>
+                </VerticalStackLayout>
 
-                <FlexLayout Direction="Row" 
-                            Wrap="Wrap" 
-                            JustifyContent="Center" 
-                            AlignItems="Center">
-
+                <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Center" AlignItems="Center">
                     <Button Text="New Song" Command="{Binding AddNewSongCommand}" Margin="5"/>
                     <Button Text="Edit Song" Command="{Binding EditSongCommand}" Margin="5"/>
                     <Button Text="Delete Song" Command="{Binding DeleteSongCommand}" Margin="5"/>
@@ -40,30 +78,29 @@
                     <Button Text="Spotify import" Command="{Binding GoToSpotifyImportCommand}" Margin="5"/>
                 </FlexLayout>
 
-                <Picker Title="Válassz dalt..."
-                        ItemsSource="{Binding FilteredSongs}"
-                        ItemDisplayBinding="{Binding Title}" 
-                        SelectedItem="{Binding SelectedSong}"
-                        HorizontalOptions="Fill" />
+                <VerticalStackLayout Spacing="5" Margin="0,5">
+                    <Label Text="Válassz dalt..." TextColor="Gray" FontSize="12" Margin="15,0,0,0"/>
+                    <Border>
+                        <Picker ItemsSource="{Binding FilteredSongs}"
+                ItemDisplayBinding="{Binding Title}" 
+                SelectedItem="{Binding SelectedSong}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    </Border>
+                </VerticalStackLayout>
+
             </VerticalStackLayout>
         </ScrollView>
 
         <Grid Grid.Row="1">
-
-            <Label Text="Ide jöhet a fő tartalom / listák..." 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center"/>
+           
 
             <Button Text="Megosztás"
-            Command="{Binding MusicShareCommand}"
-            BackgroundColor="{StaticResource Primary}"
-            TextColor="White"
-            CornerRadius="25"
-            HeightRequest="50"
-            HorizontalOptions="End"
-            VerticalOptions="End"
-            Margin="20"
-            Shadow="{Shadow Brush=Black, Offset='2,2', Opacity=0.5}" />
+                    Command="{Binding MusicShareCommand}" 
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Margin="20" />
         </Grid>
 
     </Grid>
