@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MusicLister.Models;
@@ -317,5 +318,52 @@ namespace Feleves_Feladat_FZW0D1.ViewModels
                 }
             }
         }
+        [RelayCommand]
+        async Task MusicShare()
+        {
+                string contentToShare = "";
+                string title = "Megosztás";
+
+                if (SelectedSong != null && SelectedArtist != null)
+                {
+                    contentToShare = $"Ezt hallgasd meg: {SelectedArtist.Name} - {SelectedSong.Title}";
+                }
+                else if (SelectedArtist != null)
+                {
+                    contentToShare = $"Ajánlom ezt az előadót: {SelectedArtist.Name}";
+                }
+                else
+                {
+                    WeakReferenceMessenger.Default.Send("Hiba: Nincs mit megosztani! Válassz előadót vagy dalt.");
+                    return;
+                }
+
+                string action = await Shell.Current.DisplayActionSheet("Hogyan szeretnéd megosztani?", "Mégse", null, "Szöveges üzenetként", "Szöveges fájlként (.txt)");
+                if (string.IsNullOrEmpty(action) || action == "Mégse")
+                    return;
+                if (action == "Szöveges üzenetként")
+                {
+                    await Share.Default.RequestAsync(new ShareTextRequest
+                    {
+                        Text = contentToShare,
+                        Title = title
+                    });
+                }
+                else if (action == "Szöveges fájlként (.txt)")
+                {
+                    string fileName = "zene_ajanlo.txt";
+                    string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+
+                    File.WriteAllText(filePath, contentToShare);
+
+                    await Share.Default.RequestAsync(new ShareFileRequest
+                    {
+                        Title = title,
+                        File = new ShareFile(filePath)
+                    });
+                }
+        }
     }
+
+
 }

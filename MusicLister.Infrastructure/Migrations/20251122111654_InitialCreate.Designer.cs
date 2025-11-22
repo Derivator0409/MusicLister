@@ -12,7 +12,7 @@ using MusicLister.Infrastructure;
 namespace MusicLister.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20251115212419_InitialCreate")]
+    [Migration("20251122111654_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
